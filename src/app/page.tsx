@@ -1,103 +1,195 @@
-import Image from "next/image";
+'use client';
+
+import { useState } from 'react';
+import ResizableWindow from './components/ResizableWindow';
+import DraggableIcon from './components/DraggableIcon';
+import Image from 'next/image';
+import VideoPlayer from './components/VideoPlayer';
+
+interface FileInfo {
+  artist: string;
+  medium: string;
+}
+
+interface FileIcon {
+  id: string;
+  name: string;
+  icon: string;
+  modelType: string;
+  modelInfo: FileInfo;
+}
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [showTrash, setShowTrash] = useState(false);
+  const [showInfo, setShowInfo] = useState(false);
+  const [showLivestream, setShowLivestream] = useState(false);
+  const [showModelViewer, setShowModelViewer] = useState(false);
+  const [selectedModelInfo, setSelectedModelInfo] = useState<FileInfo>({artist: 'example', medium: 'example'});
+  const [selectedModelTitle, setSelectedModelTitle] = useState('');
+  const [infoImage, setInfoImage] = useState('');
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+  const handleInfoOpen = () => {
+    const images = ['/rejects3_poster.jpeg', '/Reject_poster.png'];
+    const randomImage = images[Math.floor(Math.random() * images.length)];
+    setInfoImage(randomImage);
+    setShowInfo(true);
+  };
+
+  const trashFiles: FileIcon[] = [
+    { id: '1', name: '001', icon: '/trash_bag_icon.png', modelType: '1', modelInfo: {'artist': 'example', 'medium': 'example' } },
+    { id: '2', name: '002', icon: '/trash_bag_icon.png', modelType: '2', modelInfo: {'artist': 'example', 'medium': 'example' } },
+    { id: '3', name: '003', icon: '/trash_bag_icon.png', modelType: '3', modelInfo: {'artist': 'example', 'medium': 'example' } },
+    { id: '4', name: '004', icon: '/trash_bag_icon.png', modelType: '4', modelInfo: {'artist': 'example', 'medium': 'example' } },
+    { id: '5', name: '001', icon: '/trash_bag_icon.png', modelType: '1', modelInfo: {'artist': 'example', 'medium': 'example' } },
+    { id: '6', name: '002', icon: '/trash_bag_icon.png', modelType: '2', modelInfo: {'artist': 'example', 'medium': 'example' } },
+    { id: '7', name: '003', icon: '/trash_bag_icon.png', modelType: '3', modelInfo: {'artist': 'example', 'medium': 'example' } },
+    { id: '8', name: '004', icon: '/trash_bag_icon.png', modelType: '4', modelInfo: {'artist': 'example', 'medium': 'example' } },
+    { id: '9', name: '001', icon: '/trash_bag_icon.png', modelType: '1', modelInfo: {'artist': 'example', 'medium': 'example' } },
+    { id: '10', name: '002', icon: '/trash_bag_icon.png', modelType: '2', modelInfo: {'artist': 'example', 'medium': 'example' } },
+    { id: '11', name: '003', icon: '/trash_bag_icon.png', modelType: '3', modelInfo: {'artist': 'example', 'medium': 'example' } },
+    { id: '12', name: '004', icon: '/trash_bag_icon.png', modelType: '4', modelInfo: {'artist': 'example', 'medium': 'example' } },
+    { id: '13', name: '001', icon: '/trash_bag_icon.png', modelType: '1', modelInfo: {'artist': 'example', 'medium': 'example' } },
+    { id: '14', name: '002', icon: '/trash_bag_icon.png', modelType: '2', modelInfo: {'artist': 'example', 'medium': 'example' } },
+    { id: '15', name: '003', icon: '/trash_bag_icon.png', modelType: '3', modelInfo: {'artist': 'example', 'medium': 'example' } },
+    { id: '16', name: '004', icon: '/trash_bag_icon.png', modelType: '4', modelInfo: {'artist': 'example', 'medium': 'example' } },
+    { id: '17', name: '001', icon: '/trash_bag_icon.png', modelType: '1', modelInfo: {'artist': 'example', 'medium': 'example' } },
+    { id: '18', name: '002', icon: '/trash_bag_icon.png', modelType: '2', modelInfo: {'artist': 'example', 'medium': 'example' } },
+    { id: '19', name: '003', icon: '/trash_bag_icon.png', modelType: '3', modelInfo: {'artist': 'example', 'medium': 'example' } },
+    { id: '20', name: '004', icon: '/trash_bag_icon.png', modelType: '4', modelInfo: {'artist': 'example', 'medium': 'example' } },
+    { id: '21', name: '001', icon: '/trash_bag_icon.png', modelType: '1', modelInfo: {'artist': 'example', 'medium': 'example' } },
+    { id: '22', name: '002', icon: '/trash_bag_icon.png', modelType: '2', modelInfo: {'artist': 'example', 'medium': 'example' } },
+    { id: '23', name: '003', icon: '/trash_bag_icon.png', modelType: '3', modelInfo: {'artist': 'example', 'medium': 'example' } },
+    { id: '24', name: '004', icon: '/trash_bag_icon.png', modelType: '4', modelInfo: {'artist': 'example', 'medium': 'example' } },
+    { id: '25', name: '001', icon: '/trash_bag_icon.png', modelType: '1', modelInfo: {'artist': 'example', 'medium': 'example' } },
+    { id: '26', name: '002', icon: '/trash_bag_icon.png', modelType: '2', modelInfo: {'artist': 'example', 'medium': 'example' } },
+    { id: '27', name: '003', icon: '/trash_bag_icon.png', modelType: '3', modelInfo: {'artist': 'example', 'medium': 'example' } },
+    { id: '28', name: '004', icon: '/trash_bag_icon.png', modelType: '4', modelInfo: {'artist': 'example', 'medium': 'example' } },
+    { id: '29', name: '001', icon: '/trash_bag_icon.png', modelType: '1', modelInfo: {'artist': 'example', 'medium': 'example' } },
+    { id: '30', name: '001', icon: '/trash_bag_icon.png', modelType: '1', modelInfo: {'artist': 'example', 'medium': 'example' } },
+  ];
+
+  return (
+    <main className="min-h-screen bg-white relative">
+        <>
+          {/* Background Image */}
+          <div className="fixed inset-0 w-screen h-screen">
+            <img
+              src="/Rejects_Green_Paint.png"
+              alt="Background"
+              className="w-full h-full object-contain"
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+          </div>
+
+          {/* Content */}
+          <div className="relative z-10">
+            {/* Desktop Icons */}
+            <div className="p-4">
+              <DraggableIcon
+                initialY={10}
+                initialX={10}
+                icon="/trash_icon.png"
+                label="Trash"
+                onDoubleClick={() => setShowTrash(true)}
+              />
+              <DraggableIcon
+                initialY={100}
+                initialX={10}
+                icon="/info_icon.png"
+                label="Info"
+                onDoubleClick={handleInfoOpen}
+              />
+              <DraggableIcon
+                initialY={190}
+                initialX={10}
+                icon="/tv_icon.png"
+                label="Livestream"
+                onDoubleClick={() => setShowLivestream(true)}
+              />
+            </div>
+
+            {/* Trash Window */}
+            {showTrash && (
+              <ResizableWindow
+                title="Trash"
+                onClose={() => setShowTrash(false)}
+                initialPosition={{ x: 100, y: 100 }}
+              >
+                <div className="p-4 grid grid-cols-3 gap-4">
+                  {trashFiles.map((file) => (
+                    <div
+                      key={file.id}
+                      className="flex flex-col items-center p-8 space-y-4 hover:bg-gray-100 rounded-lg cursor-pointer transition-colors mt-[8px]"
+                      onClick={() => {
+                        setSelectedModelInfo(file.modelInfo);
+                        setSelectedModelTitle(file.name)
+                        setShowModelViewer(true);
+                      }}
+                    >
+                      <Image height={96} width={96} src={file.icon} alt={file.name} className="w-6 h-6" />
+                      <span className="text-sm mt-2 font-prestige">{file.name}</span>
+                    </div>
+                  ))}
+                </div>
+              </ResizableWindow>
+            )}
+
+            {/* Info Window */}
+            {showInfo && (
+              <ResizableWindow
+                title="Information"
+                onClose={() => setShowInfo(false)}
+                initialPosition={{ x: 300, y: 100 }}
+              >
+                <div className="w-full h-full flex items-center justify-center p-4">
+                  <Image
+                    src={infoImage}
+                    alt="Rejects Poster"
+                    width={800}
+                    height={800}
+                    className="w-full h-full object-contain"
+                    priority
+                  />
+                </div>
+              </ResizableWindow>
+            )}
+
+            {/* Livestream Window */}
+            {showLivestream && (
+              <ResizableWindow
+                title="Livestream"
+                onClose={() => setShowLivestream(false)}
+                initialPosition={{ x: 500, y: 100 }}
+              >
+                <div className="w-full h-full p-4">
+                  <div className="relative w-full h-full">
+                    <iframe
+                      src="https://www.youtube.com/embed/zjXJxZAL12Y?si=K34nUxbbUaW0dfo2"
+                      title="YouTube video player"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                      className="w-full h-full"
+                      referrerPolicy="strict-origin-when-cross-origin"
+                    />
+                  </div>
+                </div>
+              </ResizableWindow>
+            )}
+
+            {/* Model Viewer Window */}
+            {showModelViewer && (
+              <ResizableWindow
+                title={selectedModelTitle}
+                onClose={() => setShowModelViewer(false)}
+                initialPosition={{ x: 700, y: 100 }}
+              >
+              <VideoPlayer 
+                videoUrl="/example_scan.MP4" 
+                modelInfo={selectedModelInfo}
+              />
+              </ResizableWindow>
+            )}
+          </div>
+        </>
+    </main>
   );
 }
