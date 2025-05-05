@@ -101,7 +101,7 @@ export default function DraggableIcon({ initialX, initialY, icon, label, onDoubl
         top: position.y,
         userSelect: isDragging ? 'none' : 'auto',
         cursor: isDragging ? 'grabbing' : 'pointer',
-        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+        backgroundColor: 'rgba(0, 0, 0, 0.9)',
         borderRadius: '20px',
         padding: '8px'
       }}

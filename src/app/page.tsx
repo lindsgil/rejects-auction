@@ -71,13 +71,22 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-white relative">
         <>
-          {/* Background Image */}
-          <div className="fixed inset-0 w-screen h-screen">
-            <img
-              src="/Rejects_Green_Paint.png"
-              alt="Background"
-              className="w-full h-full object-contain"
-            />
+          {/* Background Video */}
+          <div className="fixed inset-0 w-screen h-screen flex items-center justify-center">
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="w-[50vw] h-[70vh] object-cover"
+              style={{
+                position: 'fixed',
+                zIndex: -1
+              }}
+            >
+              <source src="/scaniverse_trash.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
           </div>
 
           {/* Content */}
